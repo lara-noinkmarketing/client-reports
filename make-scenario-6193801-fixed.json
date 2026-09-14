@@ -35,15 +35,15 @@
           },
           {
             "name": "campaign_end",
-            "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+            "value": "{{if(1.stop_time; formatDate(1.stop_time; \"YYYY-MM-DD\"); formatDate(now; \"YYYY-MM-DD\"))}}"
           },
           {
             "name": "campaign_end_fmt",
-            "value": "{{formatDate(now; \"D MMM YYYY\")}}"
+            "value": "{{if(1.stop_time; formatDate(1.stop_time; \"D MMM YYYY\"); formatDate(now; \"D MMM YYYY\"))}}"
           },
           {
             "name": "days_live",
-            "value": "{{round((now - parseDate(1.start_time; \"YYYY-MM-DDTHH:mm:ssZZ\")) / (1000 * 60 * 60 * 24))}}"
+            "value": "{{round((if(1.stop_time; parseDate(1.stop_time; \"YYYY-MM-DDTHH:mm:ssZZ\"); now) - parseDate(1.start_time; \"YYYY-MM-DDTHH:mm:ssZZ\")) / (1000 * 60 * 60 * 24))}}"
           }
         ]
       },
