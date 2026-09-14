@@ -1,0 +1,1727 @@
+{
+  "name": "Real Estate 4305 - One-Off Traffic Report (2 Ads)",
+  "flow": [
+    {
+      "id": 1,
+      "mapper": {
+        "limit": "1",
+        "businessId": "1061221316839357",
+        "adAccountId": "act_1633252084924219"
+      },
+      "module": "facebook-ads-cm:listCampaigns",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -211,
+          "y": -283
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 7990529
+      }
+    },
+    {
+      "id": 2,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "campaign_start",
+            "value": "{{1.start_time}}"
+          },
+          {
+            "name": "campaign_start_fmt",
+            "value": "{{formatDate(1.start_time; \"D MMM YYYY\")}}"
+          },
+          {
+            "name": "campaign_end",
+            "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+          },
+          {
+            "name": "campaign_end_fmt",
+            "value": "{{formatDate(now; \"D MMM YYYY\")}}"
+          },
+          {
+            "name": "days_live",
+            "value": "{{round((now - parseDate(1.start_time; \"YYYY-MM-DDTHH:mm:ssZZ\")) / (1000 * 60 * 60 * 24))}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 331,
+          "y": 108
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 10,
+      "mapper": {
+        "type": "adSet",
+        "adSet": "120251421454310503",
+        "limit": "1",
+        "fields": [
+          "unique_clicks",
+          "unique_ctr",
+          "actions",
+          "clicks",
+          "cost_per_action_type",
+          "cpc",
+          "ctr",
+          "frequency",
+          "impressions",
+          "reach",
+          "spend",
+          "unique_actions",
+          "video_30_sec_watched_actions",
+          "video_avg_time_watched_actions",
+          "video_p100_watched_actions",
+          "video_p25_watched_actions",
+          "video_p50_watched_actions",
+          "video_p75_watched_actions",
+          "video_p95_watched_actions",
+          "video_play_actions",
+          "video_thruplay_watched_actions",
+          "cpm"
+        ],
+        "business": "1061221316839357",
+        "adAccount": "act_1633252084924219",
+        "date_preset": "lifetime",
+        "specify_date": "date_preset",
+        "time_increment": "all_days"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -197,
+          "y": 61
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 7990529
+      }
+    },
+    {
+      "id": 11,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "reach",
+            "value": "{{10.reach}}"
+          },
+          {
+            "name": "impressions",
+            "value": "{{10.impressions}}"
+          },
+          {
+            "name": "link_clicks",
+            "value": "{{10.unique_clicks}}"
+          },
+          {
+            "name": "spend",
+            "value": "{{round(10.spend * 100) / 100}}"
+          },
+          {
+            "name": "frequency",
+            "value": "{{round(10.frequency * 100) / 100}}"
+          },
+          {
+            "name": "ctr",
+            "value": "{{round(10.ctr * 100) / 100}}"
+          },
+          {
+            "name": "cpc",
+            "value": "{{round(10.cpc * 100) / 100}}"
+          },
+          {
+            "name": "cpm",
+            "value": "{{round(10.cpm * 100) / 100}}"
+          },
+          {
+            "name": "headline",
+            "value": "Over {{10.reach}} buyers reached in {{2.days_live}} days!"
+          },
+          {
+            "name": "addr_street",
+            "value": "1/38 Cooinda Street"
+          },
+          {
+            "name": "addr_suburb",
+            "value": "Eastern Heights"
+          },
+          {
+            "name": "all_ctr",
+            "value": "{{round(10.ctr * 100) / 100}}"
+          },
+          {
+            "name": "total_clicks",
+            "value": "{{10.clicks}}"
+          },
+          {
+            "name": "cost_per_reach",
+            "value": "{{if(10.reach; round(10.spend / 10.reach * 100) / 100; 0)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 296,
+          "y": -195
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 12,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "landing_page_views",
+            "value": "{{if(get(map(10.cost_per_action_type; \"value\"; \"action_type\"; \"omni_landing_page_view\"); 1); round(10.spend / get(map(10.cost_per_action_type; \"value\"; \"action_type\"; \"omni_landing_page_view\"); 1)); 0)}}"
+          },
+          {
+            "name": "video_plays",
+            "value": "{{if(10.video_play_actions; get(map(10.video_play_actions; \"value\"; \"action_type\"; \"video_view\"); 1); 0)}}"
+          },
+          {
+            "name": "post_engagement",
+            "value": "{{get(map(10.actions; \"value\"; \"action_type\"; \"post_engagement\"); 1)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 10
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 13,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "clicks_per_day",
+            "value": "{{round(11.link_clicks / 2.days_live)}}"
+          },
+          {
+            "name": "lpv_per_day",
+            "value": "{{round(12.landing_page_views / 2.days_live)}}"
+          },
+          {
+            "name": "cplpv",
+            "value": "{{if(12.landing_page_views; round(11.spend / 12.landing_page_views * 100) / 100; 0)}}"
+          },
+          {
+            "name": "lpv_from_clicks_rate",
+            "value": "{{if(11.link_clicks; round(12.landing_page_views / 11.link_clicks * 100); 0)}}"
+          },
+          {
+            "name": "listing_visit_rate",
+            "value": "{{round(12.landing_page_views / 11.reach * 100)}}"
+          },
+          {
+            "name": "video_start_rate",
+            "value": "{{round(12.video_plays / 11.reach * 100)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 891,
+          "y": -48
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 14,
+      "mapper": {
+        "model": "gpt-4o",
+        "top_p": 1,
+        "select": "chat",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You write short campaign summary sections for property vendors in Australia. The numbers already appear elsewhere in the report \u2014 your job is to put meaning around them.\n\nTone:\n- Write the way a straight-talking, experienced local agent would explain this over coffee. Genuine, not performative.\n- If a result is genuinely good, say so \u2014 and say why, with a number or comparison to make it real.\n- If something is ordinary, avoid saying anything at all, just include the stats.\n- Keep it conversational. Short sentences where it helps clarity. No bullet points.\n- Avoid: 'leverage', 'maximize', 'synergy', 'at the end of the day', 'results speak for themselves'. Don't pitch.\n- Never use abbreviations or acronyms. Write them out in plain English every time.\n\nRules \u2014 must follow every time:\n- Each section: 1\u20132 sentences only. No exceptions.\n- One insight per section. Do not combine multiple points.\n- Mention at most two numbers per section.\n- Do NOT include the property address anywhere in the output.\n- Do not explain what a metric is \u2014 explain what this campaign's number means.\n\nAustralian real estate Facebook benchmarks (2024\u201325):\n- Average click-through rate: 4.28%\n- Average cost per click: $0.24 AUD\n- Average cost per thousand impressions: $30.09 AUD real estate\n- Frequency: only mention a benchmark if frequency is above 1.5 \u2014 1.5\u20132.5 = above average, above 2.5 = excellent. If frequency is 1.5 or below, make no benchmark comment.\n\nNever frame any result negatively. Do not use the word 'average' to describe a result. Only include a benchmark comparison when the result is genuinely positive (above average or excellent)."
+          },
+          {
+            "role": "user",
+            "content": "Write the top 4 most important insights from this campaign. Use only the data below \u2014 do not invent numbers. Do not include the property address anywhere.\n\nCampaign data:\n- Campaign: {{2.days_live}} days ({{2.campaign_start_fmt}} to {{2.campaign_end_fmt}})\n- Total spend: ${{11.spend}} AUD\n- People reached: {{11.reach}}\n- Impressions: {{11.impressions}}\n- Ad clicks: {{11.link_clicks}}\n- All-click CTR: {{11.all_ctr}}%\n- Unique click-through rate (clicks \u00f7 reach): {{11.ctr}}%\n- Cost per click: ${{11.cpc}} AUD\n- Cost per thousand impressions: ${{11.cpm}} AUD\n- Frequency (times each person saw the ad): {{11.frequency}}x\n- Property listing views: {{12.landing_page_views}}\n- Cost per listing view: ${{13.cplpv}} AUD\n- Video plays: {{12.video_plays}}\n- Total engagements: {{12.post_engagement}}\n\nWrite exactly these four sections with exactly these labels \u2014 no intro, no outro:\nVISIBILITY: [1\u20132 sentences. First sentence: state how many people the ad reached, then subtract reach from impressions (impressions minus reach) to get the approximate number who saw it more than once, and mention that figure \u2014 e.g. \"9,288 people saw the ad, and around 3,120 of those saw it more than once.\" Second sentence: ONLY include if frequency is above 1.5 \u2014 say it is 'above average' (1.5\u20132.5) or 'excellent' (above 2.5). If frequency is 1.5 or below, stop after the first sentence with no benchmark comment at all.]\nENGAGEMENT: [1\u20132 sentences on clicks, click rate, or cost efficiency]\nLISTING TRAFFIC: [1\u20132 sentences on how many people visited the property listing and what each visit cost \u2014 not clicks or messages]\nSOCIAL PROOF: [1\u20132 sentences on video plays or engagement \u2014 what level of interest does this show]",
+            "imageDetail": "auto"
+          }
+        ],
+        "max_tokens": 700,
+        "temperature": 0.7,
+        "n_completions": 1,
+        "response_format": "text"
+      },
+      "module": "openai-gpt-3:CreateCompletion",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1222,
+          "y": -162
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 7233716
+      }
+    },
+    {
+      "id": 15,
+      "mapper": {
+        "text": "{{14.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1496,
+          "y": -178
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "VISIBILITY:([\\s\\S]*?)(?=ENGAGEMENT:)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 16,
+      "mapper": {
+        "text": "{{14.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1789,
+          "y": -140
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "ENGAGEMENT:([\\s\\S]*?)(?=LISTING TRAFFIC:)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 17,
+      "mapper": {
+        "text": "{{14.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2071,
+          "y": -203
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "LISTING TRAFFIC:([\\s\\S]*?)(?=SOCIAL PROOF:)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 18,
+      "mapper": {
+        "text": "{{14.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2380,
+          "y": -157
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "SOCIAL PROOF:([\\s\\S]*)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 19,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "report_html",
+            "value": "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><meta name=\"robots\" content=\"noindex, nofollow\"/><link rel=\"icon\" href=\"https://assets.cdn.filesafe.space/TegFC1QlNYAk7R862CyK/media/69f45dc707cf68d3e578908d.png\" type=\"image/png\"/><title>Campaign Report \u2014 {{11.addr_street}}, {{11.addr_suburb}}</title><style>:root{--bg:#f8f7f7;--card:#ffffff;--ink:#111111;--muted:#9a9a9a;--line:#e7e4e4;--red:#ea3637;--red-2:#c82d2e;--red-soft:#fbeaea;--shadow:0 14px 40px rgba(17,17,17,.08);--radius:22px;}*{box-sizing:border-box;}html{scroll-behavior:smooth;}body{margin:0;background:radial-gradient(circle at top right,rgba(234,54,55,.10),transparent 22%),linear-gradient(180deg,#f9f8f8 0%,#f1efef 100%);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,sans-serif;}.wrap{max-width:1240px;margin:0 auto;padding:28px;}.hero{position:relative;overflow:hidden;border-radius:30px;padding:38px;background:linear-gradient(135deg,#111111,#1c1414);color:white;box-shadow:var(--shadow);margin-bottom:22px;}.hero::after{content:\"\";position:absolute;inset:auto -100px -120px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(234,54,55,.35),rgba(234,54,55,0) 68%);}.brand{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;flex-wrap:wrap;}.brand-badge{display:inline-flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px;color:#f3e9e9;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:10px 14px;border-radius:999px;}.hero h1{margin:18px 0 10px;font-size:clamp(2rem,4vw,3.6rem);line-height:1.02;max-width:780px;}.hero p{margin:0;color:rgba(255,255,255,.85);max-width:760px;font-size:1.08rem;}.hero-stats{display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:14px;margin-top:24px;}.hero-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:18px;padding:16px 18px;}.hero-stat .label{color:rgba(255,255,255,.74);font-size:.88rem;}.hero-stat .value{font-size:1.8rem;font-weight:800;margin-top:6px;letter-spacing:-.03em;}.grid{display:grid;gap:18px;}.kpi-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px;}.card{background:var(--card);border:1px solid rgba(17,17,17,.06);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}.kpi .eyebrow{color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;}.kpi .big{margin-top:8px;font-size:2rem;font-weight:800;letter-spacing:-.03em;}.kpi .sub{margin-top:8px;color:var(--muted);font-size:.95rem;}.section-title{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:18px 0 10px;}.section-title h2{margin:0;font-size:1.35rem;}.section-title p{margin:4px 0 0;color:var(--muted);}.two-col{grid-template-columns:1.2fr .8fr;margin-bottom:18px;}.three-col{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px;}.insight{border-left:4px solid var(--red);background:linear-gradient(180deg,#fff5f5,#fff);}.small-note{color:var(--muted);font-size:.92rem;}.funnel-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center;}.funnel{display:flex;flex-direction:column;gap:12px;}.step{position:relative;border-radius:18px;color:white;padding:16px 18px;background:linear-gradient(135deg,var(--red),var(--red-2));}.step:nth-child(2){width:88%;margin-left:6%;}.step:nth-child(3){width:72%;margin-left:14%;}.step:nth-child(4){width:58%;margin-left:21%;background:linear-gradient(135deg,#111111,#3a3a3a);}.step .name{font-size:.88rem;opacity:.85;text-transform:uppercase;letter-spacing:.08em;}.step .value{font-size:1.7rem;font-weight:800;margin-top:6px;}.step .meta{font-size:.92rem;opacity:.85;}.ratio-list{display:grid;gap:12px;}.ratio{padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:#fbfafa;}.ratio-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;font-weight:700;}.bar{width:100%;height:12px;border-radius:999px;background:#efeaea;overflow:hidden;}.bar > span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--red-2));width:0;transition:width 1.2s ease;}.metric-list{display:grid;gap:12px;}.metric-row{display:flex;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid var(--line);}.metric-row:last-child{border-bottom:0;}.metric-row .label{color:var(--muted);}.metric-row .value{font-weight:700;}.story-list{display:grid;gap:12px;padding-left:0;margin:0;}.story-item{list-style:none;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;}.story-num{width:40px;height:40px;border-radius:14px;background:var(--red-soft);color:var(--red-2);display:grid;place-items:center;font-weight:800;}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}.tab-btn{appearance:none;border:1px solid var(--line);background:#faf8f8;color:var(--ink);border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer;}.tab-btn.active{background:var(--red);color:white;border-color:transparent;}.tab-panel{display:none;}.tab-panel.active{display:block;}.chart-box{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,#fdfcfc,#f8f6f6);}.h-bars{display:grid;gap:14px;}.h-row{display:grid;grid-template-columns:160px 1fr 70px;align-items:center;gap:14px;}.h-label{color:var(--ink);font-weight:600;}.h-track{height:18px;background:#efe9e9;border-radius:999px;overflow:hidden;}.h-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--red-2));transition:width 1.2s ease;}.h-value{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--muted);}.footer{color:var(--muted);font-size:.9rem;padding:6px 4px 24px;}.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:#f6f2f2;border:1px solid var(--line);padding:8px 12px;color:var(--muted);font-size:.9rem;}.version-flag{position:fixed;top:18px;right:18px;z-index:30;box-shadow:0 10px 25px rgba(0,0,0,.08);padding:10px 14px;border-radius:999px;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}.tip{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--red-soft);color:var(--red-2);font-size:10px;cursor:help;vertical-align:middle;margin-left:3px;position:relative;}.tip[data-tooltip]{position:relative;}.tip[data-tooltip]::before{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:white;padding:10px 12px;border-radius:10px;font-size:12px;font-weight:500;line-height:1.4;width:220px;white-space:normal;z-index:1000;opacity:0;pointer-events:none;visibility:hidden;transition:opacity 0.2s, visibility 0.2s;box-shadow:0 4px 12px rgba(0,0,0,0.25);}.tip[data-tooltip]::after{content:\"\";position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);width:8px;height:8px;background:#1a1a1a;border-radius:2px;transform:translateX(-50%) rotate(45deg);opacity:0;visibility:hidden;transition:opacity 0.2s, visibility 0.2s;z-index:999;}.tip[data-tooltip]:hover::before,.tip[data-tooltip]:hover::after{opacity:1;visibility:visible;}.topnav-logo img{height:40px;width:auto;max-width:200px;}@media(max-width:1024px){.kpi-grid,.two-col,.three-col,.hero-stats,.funnel-wrap{grid-template-columns:1fr 1fr;}}@media(max-width:760px){.wrap{padding:16px;}.hero{padding:24px;border-radius:24px;}.kpi-grid,.two-col,.three-col,.hero-stats,.funnel-wrap{grid-template-columns:1fr;}.h-row{grid-template-columns:1fr;}.h-value{text-align:left;}.version-flag{position:static;display:inline-flex;margin:0 0 14px auto;}.tip[data-tooltip]::before{width:180px;font-size:11px;}}.topnav{position:sticky;top:0;z-index:100;background:#111111;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 2px 12px rgba(0,0,0,.28);}.topnav-logo{display:flex;align-items:center;text-decoration:none;position:relative;padding:8px 6px;}.topnav-logo .word{position:relative;z-index:1;font-weight:800;font-size:1.15rem;color:#ffffff;letter-spacing:-.01em;line-height:1;}.topnav-logo .word .ink{color:var(--red);}.topnav-logo .sub{position:relative;z-index:1;display:block;font-size:.5rem;letter-spacing:.24em;color:var(--muted);font-weight:700;text-transform:uppercase;margin-top:3px;}.home-btn{display:inline-flex;align-items:center;gap:7px;background:white;border:none;border-radius:999px;padding:9px 18px;font-size:.88rem;font-weight:700;color:#111111;text-decoration:none;transition:opacity .15s;white-space:nowrap;}.home-btn:hover{opacity:.88;}@media(max-width:760px){.topnav{padding:0 16px;}.home-btn span{display:none;}}@media print{.topnav{display:none;}}@media print{body{background:white;}.wrap{max-width:none;padding:0;}.card,.hero{box-shadow:none;break-inside:avoid;}.tab-btn{display:none;}.tab-panel{display:block!important;}}</style></head><body><nav class=\"topnav\"><a class=\"topnav-logo\" href=\"https://noinkmarketing.com.au\"><img src=\"https://assets.cdn.filesafe.space/TegFC1QlNYAk7R862CyK/media/69e81cbc033b8ae4a4bde9ea.png\" alt=\"No Ink Marketing\"/></a><a class=\"home-btn\" href=\"https://noinkmarketing.com.au\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"15 18 9 12 15 6\"></polyline></svg><span>noinkmarketing.com.au</span></a></nav><div class=\"wrap\"><section class=\"hero\"><div class=\"brand\"><div><div class=\"brand-badge\">No Ink Marketing \u00b7 Campaign Report</div><h1>{{11.headline}}</h1><p>This campaign delivered strong visibility, engagement and website traffic for <strong style=\"text-transform:capitalize\">{{11.addr_street}}, {{11.addr_suburb}}</strong>.</p></div><div class=\"pill\">Reporting period: {{2.campaign_start_fmt}} \u2013 {{2.campaign_end_fmt}}</div></div><div class=\"hero-stats\"><div class=\"hero-stat\"><div class=\"label\">Ad Spend</div><div class=\"value\">${{11.spend}}</div></div><div class=\"hero-stat\"><div class=\"label\">Listing Page Views <span class=\"tip\" data-tooltip=\"People who clicked through from the ad and landed on the property listing page.\">\u24d8</span></div><div class=\"value\">{{12.landing_page_views}}</div></div><div class=\"hero-stat\"><div class=\"label\">Ad Click-Through Rate <span class=\"tip\" data-tooltip=\"The percentage of people who saw the ad and clicked your link. The Australian real estate average is 4.28% \u2014 this figure is unique CTR (clicks \u00f7 reach), which tends to read a little higher.\">\u24d8</span></div><div class=\"value\">{{11.ctr}}%</div></div></div></section><section class=\"grid kpi-grid\"><article class=\"card kpi\"><div class=\"eyebrow\">Property exposure</div><div class=\"big\">{{11.reach}}</div><div class=\"sub\">People reached by the campaign</div></article><article class=\"card kpi\"><div class=\"eyebrow\">Listing Page Views</div><div class=\"big\">{{12.landing_page_views}}</div><div class=\"sub\">People who clicked through to view the listing</div></article><article class=\"card kpi\"><div class=\"eyebrow\">Video interaction</div><div class=\"big\">{{12.video_plays}}</div><div class=\"sub\">Video plays across Facebook and Instagram</div></article><article class=\"card kpi\"><div class=\"eyebrow\">Overall engagement</div><div class=\"big\">{{12.post_engagement}}</div><div class=\"sub\">Combined page engagement generated by the ad</div></article></section><div class=\"section-title\"><div><h2>Plain English snapshot</h2><p>The key story at a glance.</p></div></div><section class=\"grid two-col\"><article class=\"card insight\"><h3 style=\"margin-top:0\">What this means in plain English</h3><ul class=\"story-list\"><li class=\"story-item\"><div class=\"story-num\">1</div><div>{{15.$1}}</div></li><li class=\"story-item\"><div class=\"story-num\">2</div><div>{{16.$1}}</div></li><li class=\"story-item\"><div class=\"story-num\">3</div><div>{{17.$1}}</div></li><li class=\"story-item\"><div class=\"story-num\">4</div><div>{{18.$1}}</div></li></ul></article><article class=\"card\"><h3 style=\"margin-top:0\">Cost efficiency</h3><div class=\"metric-list\"><div class=\"metric-row\"><div class=\"label\">Cost per 1,000 impressions <span class=\"tip\" data-tooltip=\"What it cost for your ad to appear 1,000 times. The Australian real estate average is $30.09 \u2014 lower means your budget went further.\">\u24d8</span></div><div class=\"value\">${{11.cpm}}</div></div><div class=\"metric-row\"><div class=\"label\">Cost per ad click <span class=\"tip\" data-tooltip=\"What it cost each time someone clicked the ad. The Australian real estate average is around $0.24 per click.\">\u24d8</span></div><div class=\"value\">${{11.cpc}}</div></div><div class=\"metric-row\"><div class=\"label\">Cost per listing view <span class=\"tip\" data-tooltip=\"What it cost each time someone clicked through and landed on the property listing page.\">\u24d8</span></div><div class=\"value\">${{13.cplpv}}</div></div><div class=\"metric-row\"><div class=\"label\">Daily listing views</div><div class=\"value\">{{13.lpv_per_day}}/day</div></div><div class=\"metric-row\"><div class=\"label\">Daily clicks</div><div class=\"value\">{{13.clicks_per_day}}/day</div></div></div></article></section><div class=\"section-title\"><div><h2>Traffic funnel</h2><p>How attention turned into listing visits.</p></div></div><section class=\"grid two-col\"><article class=\"card\"><div class=\"funnel-wrap\"><div class=\"funnel\"><div class=\"step\"><div class=\"name\">Reached</div><div class=\"value\">{{11.reach}}</div><div class=\"meta\">Unique people who saw the ad</div></div><div class=\"step\"><div class=\"name\">Video plays</div><div class=\"value\">{{12.video_plays}}</div><div class=\"meta\">People engaged with video content</div></div><div class=\"step\"><div class=\"name\">Ad clicks</div><div class=\"value\">{{11.link_clicks}}</div><div class=\"meta\">Clicked through for more information</div></div><div class=\"step\"><div class=\"name\">Listing views</div><div class=\"value\">{{12.landing_page_views}}</div><div class=\"meta\">Visited the property listing page</div></div></div><div><div class=\"ratio-list\"><div class=\"ratio\"><div class=\"ratio-head\"><span>Listing views from reach</span><span>{{13.listing_visit_rate}}%</span></div><div class=\"bar\"><span style=\"width:{{13.listing_visit_rate}}%\"></span></div></div><div class=\"ratio\"><div class=\"ratio-head\"><span>Video starts from reach</span><span>{{13.video_start_rate}}%</span></div><div class=\"bar\"><span style=\"width:{{13.video_start_rate}}%\"></span></div></div></div></div></div></article><article class=\"card\"><h3 style=\"margin-top:0\">What stands out</h3><div class=\"metric-list\"><div class=\"metric-row\"><div class=\"label\">Impressions delivered <span class=\"tip\" data-tooltip=\"The total number of times your ad appeared in someone's feed across the campaign. This includes people who may have seen it more than once.\">\u24d8</span></div><div class=\"value\">{{11.impressions}}</div></div><div class=\"metric-row\"><div class=\"label\">Average frequency <span class=\"tip\" data-tooltip=\"How many times, on average, each person saw your ad. A well-run campaign typically sits between 1.5\u20132.5x \u2014 enough to be memorable without becoming annoying.\">\u24d8</span></div><div class=\"value\">{{11.frequency}}x</div></div><div class=\"metric-row\"><div class=\"label\">Ad click-through rate <span class=\"tip\" data-tooltip=\"The percentage of people who saw the ad and clicked your link. The Australian real estate average is 4.28% \u2014 this figure is unique CTR (clicks \u00f7 reach), which tends to read a little higher.\">\u24d8</span></div><div class=\"value\">{{11.ctr}}%</div></div><div class=\"metric-row\"><div class=\"label\">All-click CTR <span class=\"tip\" data-tooltip=\"Includes every type of click on the ad \u2014 not just clicks to the listing.\">\u24d8</span></div><div class=\"value\">{{11.all_ctr}}%</div></div><div class=\"metric-row\"><div class=\"label\">Total ad clicks <span class=\"tip\" data-tooltip=\"All clicks including repeat clicks from the same person.\">\u24d8</span></div><div class=\"value\">{{11.total_clicks}}</div></div><div class=\"metric-row\"><div class=\"label\">Cost per person reached</div><div class=\"value\">${{11.cost_per_reach}}</div></div></div></article></section><section class=\"card\"><p class=\"small-note\" style=\"margin:0\"><strong>{{11.link_clicks}} clicks on the ad</strong> turned into <strong>{{12.landing_page_views}} visits to the listing</strong>, with <strong>{{12.video_plays}} video plays</strong> and <strong>{{12.post_engagement}} total engagements</strong> along the way.</p></section><div class=\"footer\">Meta Ads campaign report for <span style=\"text-transform:capitalize\">{{11.addr_street}}, {{11.addr_suburb}}</span>. Reporting period {{2.campaign_start_fmt}} \u2013 {{2.campaign_end_fmt}}.</div></div></body></html>"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "variables",
+            "spec": {
+              "name": "value",
+              "spec": [
+                {
+                  "name": "name",
+                  "type": "text",
+                  "label": "Variable name",
+                  "required": true
+                },
+                {
+                  "name": "value",
+                  "type": "any",
+                  "label": "Variable value"
+                }
+              ],
+              "type": "collection",
+              "label": "Variable"
+            },
+            "type": "array",
+            "label": "Variables",
+            "validate": {
+              "unique": {
+                "by": "name"
+              }
+            }
+          },
+          {
+            "name": "scope",
+            "type": "select",
+            "label": "Variable lifetime",
+            "required": true,
+            "validate": {
+              "enum": [
+                "roundtrip",
+                "execution"
+              ]
+            }
+          }
+        ],
+        "restore": {
+          "expect": {
+            "scope": {
+              "label": "One cycle"
+            },
+            "variables": {
+              "items": [
+                null
+              ]
+            }
+          }
+        },
+        "designer": {
+          "x": 2654,
+          "y": -336
+        },
+        "interface": [
+          {
+            "name": "report_html",
+            "type": "any",
+            "label": "report_html"
+          }
+        ]
+      },
+      "parameters": {}
+    },
+    {
+      "id": 20,
+      "mapper": {
+        "qs": [],
+        "url": "/repos/lara-noinkmarketing/client-reports/contents/realestate4305/1-38-cooinda-street-eastern-heights/index.html",
+        "body": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "module": "github:makeRestApiCall",
+      "onerror": [
+        {
+          "id": 21,
+          "mapper": {},
+          "module": "builtin:Resume",
+          "version": 1,
+          "metadata": {
+            "designer": {
+              "x": 3348,
+              "y": -449
+            }
+          },
+          "parameters": {}
+        }
+      ],
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 3019,
+          "y": -266
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 10493602
+      }
+    },
+    {
+      "id": 22,
+      "mapper": {
+        "qs": [],
+        "url": "/repos/lara-noinkmarketing/client-reports/contents/realestate4305/1-38-cooinda-street-eastern-heights/index.html",
+        "body": "{\"message\": \"Report update\", \"content\": \"{{base64(19.report_html)}}\"{{if(20.body.sha; ',\"sha\":\"'; '')}}{{if(20.body.sha; 20.body.sha; '')}}{{if(20.body.sha; '\"'; '')}}}",
+        "method": "PUT",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "module": "github:makeRestApiCall",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 3600,
+          "y": 10
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 10493602
+      }
+    },
+    {
+      "id": 23,
+      "mapper": {
+        "to": [
+          "larah@noinkmarketing.com.au"
+        ],
+        "from": "\"Lara Haslam\" <larah@noinkmarketing.com.au>",
+        "content": "<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\"/>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n  <title>Campaign Report</title>\n</head>\n<body style=\"margin:0;padding:0;background-color:#f8f7f7;font-family:Arial,Helvetica,sans-serif;\">\n\n  <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#f8f7f7;\">\n    <tr>\n      <td align=\"center\" style=\"padding:32px 16px;\">\n\n        <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"max-width:600px;width:100%;\">\n\n          <!-- HEADER -->\n          <tr>\n            <td style=\"background-color:#111111;border-radius:14px 14px 0 0;padding:36px 36px 32px;\">\n              <p style=\"margin:0 0 10px 0;color:#ea3637;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;\">No Ink Marketing \u00b7 Campaign Report</p>\n              <h1 style=\"margin:0 0 12px 0;color:#ffffff;font-size:28px;line-height:1.2;font-weight:800;\">{{11.headline}}</h1>\n              <p style=\"margin:0;color:#c9c9c9;font-size:14px;line-height:1.5;\">\n                <strong style=\"color:#ffffff;text-transform:capitalize;\">{{11.addr_street}}, {{11.addr_suburb}}</strong><br/>\n                Reporting period: {{2.campaign_start_fmt}} \u2013 {{2.campaign_end_fmt}}\n              </p>\n            </td>\n          </tr>\n\n          <!-- TOP 3 STATS -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:28px 36px 0;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                <tr>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Ad Spend</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">${{11.spend}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Listing Views</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{12.landing_page_views}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Click-Through Rate</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{11.ctr}}%</p>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <!-- BOTTOM 3 STATS -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:0 36px 28px;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                <tr>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-top:1px solid #ece7e7;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Buyers Reached</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{11.reach}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-top:1px solid #ece7e7;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Video Plays</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{12.video_plays}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-top:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Post Engagement</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{12.post_engagement}}</p>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <!-- DIVIDER -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:0 36px;\">\n              <hr style=\"border:none;border-top:1px solid #ece7e7;margin:0;\"/>\n            </td>\n          </tr>\n\n          <!-- CTA -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:32px 36px;text-align:center;\">\n              <p style=\"margin:0 0 20px;color:#3d3d3d;font-size:15px;line-height:1.6;\">\n                Here's the campaign report for <span style=\"text-transform:capitalize\">{{11.addr_street}}, {{11.addr_suburb}}</span> \u2014 including a full traffic breakdown, video performance, cost efficiency metrics and more.\n              </p>\n              <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"margin:0 auto;\">\n                <tr>\n                  <td style=\"background-color:#ea3637;border-radius:999px;padding:14px 36px;\">\n                    <a href=\"https://reports.noinkmarketing.com.au/realestate4305/1-38-cooinda-street-eastern-heights\" style=\"color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;display:inline-block;letter-spacing:0.02em;\">View Full Report &rarr;</a>\n                  </td>\n                </tr>\n              </table>\n              <p style=\"margin:16px 0 0;color:#a8a8a8;font-size:12px;\">\n                Or copy this link: https://reports.noinkmarketing.com.au/realestate4305/1-38-cooinda-street-eastern-heights\n              </p>\n            </td>\n          </tr>\n\n          <!-- FOOTER -->\n          <tr>\n            <td style=\"background-color:#111111;border-radius:0 0 14px 14px;padding:20px 36px;text-align:center;\">\n              <p style=\"margin:0;color:#c9c9c9;font-size:12px;line-height:1.6;\">\n                This report was prepared by No Ink Marketing.<br/>\n                Campaign: <span style=\"text-transform:capitalize;\">{{11.addr_street}}, {{11.addr_suburb}}</span>.\n              </p>\n            </td>\n          </tr>\n\n        </table>\n      </td>\n    </tr>\n  </table>\n\n</body>\n</html>",
+        "subject": "\ud83d\udcca 1/38 Cooinda Street, Eastern Heights \u2014 Your Campaign Report is Ready",
+        "bodyType": "rawHtml"
+      },
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 4035,
+          "y": -181
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 7963615
+      }
+    },
+    {
+      "id": 30,
+      "mapper": {
+        "type": "adSet",
+        "adSet": "120251270777620503",
+        "limit": "1",
+        "fields": [
+          "unique_clicks",
+          "unique_ctr",
+          "actions",
+          "clicks",
+          "cost_per_action_type",
+          "cpc",
+          "ctr",
+          "frequency",
+          "impressions",
+          "reach",
+          "spend",
+          "unique_actions",
+          "video_30_sec_watched_actions",
+          "video_avg_time_watched_actions",
+          "video_p100_watched_actions",
+          "video_p25_watched_actions",
+          "video_p50_watched_actions",
+          "video_p75_watched_actions",
+          "video_p95_watched_actions",
+          "video_play_actions",
+          "video_thruplay_watched_actions",
+          "cpm"
+        ],
+        "business": "1061221316839357",
+        "adAccount": "act_1633252084924219",
+        "date_preset": "lifetime",
+        "specify_date": "date_preset",
+        "time_increment": "all_days"
+      },
+      "module": "facebook-insights:GetAdAccountInsights",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -210,
+          "y": 323
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 7990529
+      }
+    },
+    {
+      "id": 31,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "reach",
+            "value": "{{30.reach}}"
+          },
+          {
+            "name": "impressions",
+            "value": "{{30.impressions}}"
+          },
+          {
+            "name": "link_clicks",
+            "value": "{{30.unique_clicks}}"
+          },
+          {
+            "name": "spend",
+            "value": "{{round(30.spend * 100) / 100}}"
+          },
+          {
+            "name": "frequency",
+            "value": "{{round(30.frequency * 100) / 100}}"
+          },
+          {
+            "name": "ctr",
+            "value": "{{round(30.ctr * 100) / 100}}"
+          },
+          {
+            "name": "cpc",
+            "value": "{{round(30.cpc * 100) / 100}}"
+          },
+          {
+            "name": "cpm",
+            "value": "{{round(30.cpm * 100) / 100}}"
+          },
+          {
+            "name": "headline",
+            "value": "Over {{30.reach}} buyers reached in {{2.days_live}} days!"
+          },
+          {
+            "name": "addr_street",
+            "value": "64 Grange Rd"
+          },
+          {
+            "name": "addr_suburb",
+            "value": "Eastern Heights"
+          },
+          {
+            "name": "all_ctr",
+            "value": "{{round(30.ctr * 100) / 100}}"
+          },
+          {
+            "name": "total_clicks",
+            "value": "{{30.clicks}}"
+          },
+          {
+            "name": "cost_per_reach",
+            "value": "{{if(30.reach; round(30.spend / 30.reach * 100) / 100; 0)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 284,
+          "y": 407
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 32,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "landing_page_views",
+            "value": "{{if(get(map(30.cost_per_action_type; \"value\"; \"action_type\"; \"omni_landing_page_view\"); 1); round(30.spend / get(map(30.cost_per_action_type; \"value\"; \"action_type\"; \"omni_landing_page_view\"); 1)); 0)}}"
+          },
+          {
+            "name": "video_plays",
+            "value": "{{if(30.video_play_actions; get(map(30.video_play_actions; \"value\"; \"action_type\"; \"video_view\"); 1); 0)}}"
+          },
+          {
+            "name": "post_engagement",
+            "value": "{{get(map(30.actions; \"value\"; \"action_type\"; \"post_engagement\"); 1)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 555,
+          "y": 398
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 33,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "clicks_per_day",
+            "value": "{{round(31.link_clicks / 2.days_live)}}"
+          },
+          {
+            "name": "lpv_per_day",
+            "value": "{{round(32.landing_page_views / 2.days_live)}}"
+          },
+          {
+            "name": "cplpv",
+            "value": "{{if(32.landing_page_views; round(31.spend / 32.landing_page_views * 100) / 100; 0)}}"
+          },
+          {
+            "name": "lpv_from_clicks_rate",
+            "value": "{{if(31.link_clicks; round(32.landing_page_views / 31.link_clicks * 100); 0)}}"
+          },
+          {
+            "name": "listing_visit_rate",
+            "value": "{{round(32.landing_page_views / 31.reach * 100)}}"
+          },
+          {
+            "name": "video_start_rate",
+            "value": "{{round(32.video_plays / 31.reach * 100)}}"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 881,
+          "y": 407
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 34,
+      "mapper": {
+        "model": "gpt-4o",
+        "top_p": 1,
+        "select": "chat",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You write short campaign summary sections for property vendors in Australia. The numbers already appear elsewhere in the report \u2014 your job is to put meaning around them.\n\nTone:\n- Write the way a straight-talking, experienced local agent would explain this over coffee. Genuine, not performative.\n- If a result is genuinely good, say so \u2014 and say why, with a number or comparison to make it real.\n- If something is ordinary, avoid saying anything at all, just include the stats.\n- Keep it conversational. Short sentences where it helps clarity. No bullet points.\n- Avoid: 'leverage', 'maximize', 'synergy', 'at the end of the day', 'results speak for themselves'. Don't pitch.\n- Never use abbreviations or acronyms. Write them out in plain English every time.\n\nRules \u2014 must follow every time:\n- Each section: 1\u20132 sentences only. No exceptions.\n- One insight per section. Do not combine multiple points.\n- Mention at most two numbers per section.\n- Do NOT include the property address anywhere in the output.\n- Do not explain what a metric is \u2014 explain what this campaign's number means.\n\nAustralian real estate Facebook benchmarks (2024\u201325):\n- Average click-through rate: 4.28%\n- Average cost per click: $0.24 AUD\n- Average cost per thousand impressions: $30.09 AUD real estate\n- Frequency: only mention a benchmark if frequency is above 1.5 \u2014 1.5\u20132.5 = above average, above 2.5 = excellent. If frequency is 1.5 or below, make no benchmark comment.\n\nNever frame any result negatively. Do not use the word 'average' to describe a result. Only include a benchmark comparison when the result is genuinely positive (above average or excellent)."
+          },
+          {
+            "role": "user",
+            "content": "Write the top 4 most important insights from this campaign. Use only the data below \u2014 do not invent numbers. Do not include the property address anywhere.\n\nCampaign data:\n- Campaign: {{2.days_live}} days ({{2.campaign_start_fmt}} to {{2.campaign_end_fmt}})\n- Total spend: ${{31.spend}} AUD\n- People reached: {{31.reach}}\n- Impressions: {{31.impressions}}\n- Ad clicks: {{31.link_clicks}}\n- All-click CTR: {{31.all_ctr}}%\n- Unique click-through rate (clicks \u00f7 reach): {{31.ctr}}%\n- Cost per click: ${{31.cpc}} AUD\n- Cost per thousand impressions: ${{31.cpm}} AUD\n- Frequency (times each person saw the ad): {{31.frequency}}x\n- Property listing views: {{32.landing_page_views}}\n- Cost per listing view: ${{33.cplpv}} AUD\n- Video plays: {{32.video_plays}}\n- Total engagements: {{32.post_engagement}}\n\nWrite exactly these four sections with exactly these labels \u2014 no intro, no outro:\nVISIBILITY: [1\u20132 sentences. First sentence: state how many people the ad reached, then subtract reach from impressions (impressions minus reach) to get the approximate number who saw it more than once, and mention that figure \u2014 e.g. \"9,288 people saw the ad, and around 3,120 of those saw it more than once.\" Second sentence: ONLY include if frequency is above 1.5 \u2014 say it is 'above average' (1.5\u20132.5) or 'excellent' (above 2.5). If frequency is 1.5 or below, stop after the first sentence with no benchmark comment at all.]\nENGAGEMENT: [1\u20132 sentences on clicks, click rate, or cost efficiency]\nLISTING TRAFFIC: [1\u20132 sentences on how many people visited the property listing and what each visit cost \u2014 not clicks or messages]\nSOCIAL PROOF: [1\u20132 sentences on video plays or engagement \u2014 what level of interest does this show]",
+            "imageDetail": "auto"
+          }
+        ],
+        "max_tokens": 700,
+        "temperature": 0.7,
+        "n_completions": 1,
+        "response_format": "text"
+      },
+      "module": "openai-gpt-3:CreateCompletion",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1209,
+          "y": 331
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 7233716
+      }
+    },
+    {
+      "id": 35,
+      "mapper": {
+        "text": "{{34.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1507,
+          "y": 330
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "VISIBILITY:([\\s\\S]*?)(?=ENGAGEMENT:)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 36,
+      "mapper": {
+        "text": "{{34.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 1809,
+          "y": 315
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "ENGAGEMENT:([\\s\\S]*?)(?=LISTING TRAFFIC:)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 37,
+      "mapper": {
+        "text": "{{34.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2105,
+          "y": 357
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "LISTING TRAFFIC:([\\s\\S]*?)(?=SOCIAL PROOF:)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 38,
+      "mapper": {
+        "text": "{{34.result}}"
+      },
+      "module": "regexp:Parser",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 2377,
+          "y": 391
+        }
+      },
+      "parameters": {
+        "global": false,
+        "pattern": "SOCIAL PROOF:([\\s\\S]*)",
+        "multiline": false,
+        "sensitive": true,
+        "singleline": true,
+        "continueWhenNoRes": true
+      }
+    },
+    {
+      "id": 39,
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "report_html",
+            "value": "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><meta name=\"robots\" content=\"noindex, nofollow\"/><link rel=\"icon\" href=\"https://assets.cdn.filesafe.space/TegFC1QlNYAk7R862CyK/media/69f45dc707cf68d3e578908d.png\" type=\"image/png\"/><title>Campaign Report \u2014 {{31.addr_street}}, {{31.addr_suburb}}</title><style>:root{--bg:#f8f7f7;--card:#ffffff;--ink:#111111;--muted:#9a9a9a;--line:#e7e4e4;--red:#ea3637;--red-2:#c82d2e;--red-soft:#fbeaea;--shadow:0 14px 40px rgba(17,17,17,.08);--radius:22px;}*{box-sizing:border-box;}html{scroll-behavior:smooth;}body{margin:0;background:radial-gradient(circle at top right,rgba(234,54,55,.10),transparent 22%),linear-gradient(180deg,#f9f8f8 0%,#f1efef 100%);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,sans-serif;}.wrap{max-width:1240px;margin:0 auto;padding:28px;}.hero{position:relative;overflow:hidden;border-radius:30px;padding:38px;background:linear-gradient(135deg,#111111,#1c1414);color:white;box-shadow:var(--shadow);margin-bottom:22px;}.hero::after{content:\"\";position:absolute;inset:auto -100px -120px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(234,54,55,.35),rgba(234,54,55,0) 68%);}.brand{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;flex-wrap:wrap;}.brand-badge{display:inline-flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px;color:#f3e9e9;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:10px 14px;border-radius:999px;}.hero h1{margin:18px 0 10px;font-size:clamp(2rem,4vw,3.6rem);line-height:1.02;max-width:780px;}.hero p{margin:0;color:rgba(255,255,255,.85);max-width:760px;font-size:1.08rem;}.hero-stats{display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:14px;margin-top:24px;}.hero-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:18px;padding:16px 18px;}.hero-stat .label{color:rgba(255,255,255,.74);font-size:.88rem;}.hero-stat .value{font-size:1.8rem;font-weight:800;margin-top:6px;letter-spacing:-.03em;}.grid{display:grid;gap:18px;}.kpi-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px;}.card{background:var(--card);border:1px solid rgba(17,17,17,.06);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}.kpi .eyebrow{color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;}.kpi .big{margin-top:8px;font-size:2rem;font-weight:800;letter-spacing:-.03em;}.kpi .sub{margin-top:8px;color:var(--muted);font-size:.95rem;}.section-title{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:18px 0 10px;}.section-title h2{margin:0;font-size:1.35rem;}.section-title p{margin:4px 0 0;color:var(--muted);}.two-col{grid-template-columns:1.2fr .8fr;margin-bottom:18px;}.three-col{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px;}.insight{border-left:4px solid var(--red);background:linear-gradient(180deg,#fff5f5,#fff);}.small-note{color:var(--muted);font-size:.92rem;}.funnel-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center;}.funnel{display:flex;flex-direction:column;gap:12px;}.step{position:relative;border-radius:18px;color:white;padding:16px 18px;background:linear-gradient(135deg,var(--red),var(--red-2));}.step:nth-child(2){width:88%;margin-left:6%;}.step:nth-child(3){width:72%;margin-left:14%;}.step:nth-child(4){width:58%;margin-left:21%;background:linear-gradient(135deg,#111111,#3a3a3a);}.step .name{font-size:.88rem;opacity:.85;text-transform:uppercase;letter-spacing:.08em;}.step .value{font-size:1.7rem;font-weight:800;margin-top:6px;}.step .meta{font-size:.92rem;opacity:.85;}.ratio-list{display:grid;gap:12px;}.ratio{padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:#fbfafa;}.ratio-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;font-weight:700;}.bar{width:100%;height:12px;border-radius:999px;background:#efeaea;overflow:hidden;}.bar > span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--red-2));width:0;transition:width 1.2s ease;}.metric-list{display:grid;gap:12px;}.metric-row{display:flex;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid var(--line);}.metric-row:last-child{border-bottom:0;}.metric-row .label{color:var(--muted);}.metric-row .value{font-weight:700;}.story-list{display:grid;gap:12px;padding-left:0;margin:0;}.story-item{list-style:none;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;}.story-num{width:40px;height:40px;border-radius:14px;background:var(--red-soft);color:var(--red-2);display:grid;place-items:center;font-weight:800;}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}.tab-btn{appearance:none;border:1px solid var(--line);background:#faf8f8;color:var(--ink);border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer;}.tab-btn.active{background:var(--red);color:white;border-color:transparent;}.tab-panel{display:none;}.tab-panel.active{display:block;}.chart-box{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,#fdfcfc,#f8f6f6);}.h-bars{display:grid;gap:14px;}.h-row{display:grid;grid-template-columns:160px 1fr 70px;align-items:center;gap:14px;}.h-label{color:var(--ink);font-weight:600;}.h-track{height:18px;background:#efe9e9;border-radius:999px;overflow:hidden;}.h-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--red-2));transition:width 1.2s ease;}.h-value{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--muted);}.footer{color:var(--muted);font-size:.9rem;padding:6px 4px 24px;}.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:#f6f2f2;border:1px solid var(--line);padding:8px 12px;color:var(--muted);font-size:.9rem;}.version-flag{position:fixed;top:18px;right:18px;z-index:30;box-shadow:0 10px 25px rgba(0,0,0,.08);padding:10px 14px;border-radius:999px;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}.tip{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--red-soft);color:var(--red-2);font-size:10px;cursor:help;vertical-align:middle;margin-left:3px;position:relative;}.tip[data-tooltip]{position:relative;}.tip[data-tooltip]::before{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:white;padding:10px 12px;border-radius:10px;font-size:12px;font-weight:500;line-height:1.4;width:220px;white-space:normal;z-index:1000;opacity:0;pointer-events:none;visibility:hidden;transition:opacity 0.2s, visibility 0.2s;box-shadow:0 4px 12px rgba(0,0,0,0.25);}.tip[data-tooltip]::after{content:\"\";position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);width:8px;height:8px;background:#1a1a1a;border-radius:2px;transform:translateX(-50%) rotate(45deg);opacity:0;visibility:hidden;transition:opacity 0.2s, visibility 0.2s;z-index:999;}.tip[data-tooltip]:hover::before,.tip[data-tooltip]:hover::after{opacity:1;visibility:visible;}.topnav-logo img{height:40px;width:auto;max-width:200px;}@media(max-width:1024px){.kpi-grid,.two-col,.three-col,.hero-stats,.funnel-wrap{grid-template-columns:1fr 1fr;}}@media(max-width:760px){.wrap{padding:16px;}.hero{padding:24px;border-radius:24px;}.kpi-grid,.two-col,.three-col,.hero-stats,.funnel-wrap{grid-template-columns:1fr;}.h-row{grid-template-columns:1fr;}.h-value{text-align:left;}.version-flag{position:static;display:inline-flex;margin:0 0 14px auto;}.tip[data-tooltip]::before{width:180px;font-size:11px;}}.topnav{position:sticky;top:0;z-index:100;background:#111111;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 2px 12px rgba(0,0,0,.28);}.topnav-logo{display:flex;align-items:center;text-decoration:none;position:relative;padding:8px 6px;}.topnav-logo .word{position:relative;z-index:1;font-weight:800;font-size:1.15rem;color:#ffffff;letter-spacing:-.01em;line-height:1;}.topnav-logo .word .ink{color:var(--red);}.topnav-logo .sub{position:relative;z-index:1;display:block;font-size:.5rem;letter-spacing:.24em;color:var(--muted);font-weight:700;text-transform:uppercase;margin-top:3px;}.home-btn{display:inline-flex;align-items:center;gap:7px;background:white;border:none;border-radius:999px;padding:9px 18px;font-size:.88rem;font-weight:700;color:#111111;text-decoration:none;transition:opacity .15s;white-space:nowrap;}.home-btn:hover{opacity:.88;}@media(max-width:760px){.topnav{padding:0 16px;}.home-btn span{display:none;}}@media print{.topnav{display:none;}}@media print{body{background:white;}.wrap{max-width:none;padding:0;}.card,.hero{box-shadow:none;break-inside:avoid;}.tab-btn{display:none;}.tab-panel{display:block!important;}}</style></head><body><nav class=\"topnav\"><a class=\"topnav-logo\" href=\"https://noinkmarketing.com.au\"><img src=\"https://assets.cdn.filesafe.space/TegFC1QlNYAk7R862CyK/media/69e81cbc033b8ae4a4bde9ea.png\" alt=\"No Ink Marketing\"/></a><a class=\"home-btn\" href=\"https://noinkmarketing.com.au\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"15 18 9 12 15 6\"></polyline></svg><span>noinkmarketing.com.au</span></a></nav><div class=\"wrap\"><section class=\"hero\"><div class=\"brand\"><div><div class=\"brand-badge\">No Ink Marketing \u00b7 Campaign Report</div><h1>{{31.headline}}</h1><p>This campaign delivered strong visibility, engagement and website traffic for <strong style=\"text-transform:capitalize\">{{31.addr_street}}, {{31.addr_suburb}}</strong>.</p></div><div class=\"pill\">Reporting period: {{2.campaign_start_fmt}} \u2013 {{2.campaign_end_fmt}}</div></div><div class=\"hero-stats\"><div class=\"hero-stat\"><div class=\"label\">Ad Spend</div><div class=\"value\">${{31.spend}}</div></div><div class=\"hero-stat\"><div class=\"label\">Listing Page Views <span class=\"tip\" data-tooltip=\"People who clicked through from the ad and landed on the property listing page.\">\u24d8</span></div><div class=\"value\">{{32.landing_page_views}}</div></div><div class=\"hero-stat\"><div class=\"label\">Ad Click-Through Rate <span class=\"tip\" data-tooltip=\"The percentage of people who saw the ad and clicked your link. The Australian real estate average is 4.28% \u2014 this figure is unique CTR (clicks \u00f7 reach), which tends to read a little higher.\">\u24d8</span></div><div class=\"value\">{{31.ctr}}%</div></div></div></section><section class=\"grid kpi-grid\"><article class=\"card kpi\"><div class=\"eyebrow\">Property exposure</div><div class=\"big\">{{31.reach}}</div><div class=\"sub\">People reached by the campaign</div></article><article class=\"card kpi\"><div class=\"eyebrow\">Listing Page Views</div><div class=\"big\">{{32.landing_page_views}}</div><div class=\"sub\">People who clicked through to view the listing</div></article><article class=\"card kpi\"><div class=\"eyebrow\">Video interaction</div><div class=\"big\">{{32.video_plays}}</div><div class=\"sub\">Video plays across Facebook and Instagram</div></article><article class=\"card kpi\"><div class=\"eyebrow\">Overall engagement</div><div class=\"big\">{{32.post_engagement}}</div><div class=\"sub\">Combined page engagement generated by the ad</div></article></section><div class=\"section-title\"><div><h2>Plain English snapshot</h2><p>The key story at a glance.</p></div></div><section class=\"grid two-col\"><article class=\"card insight\"><h3 style=\"margin-top:0\">What this means in plain English</h3><ul class=\"story-list\"><li class=\"story-item\"><div class=\"story-num\">1</div><div>{{35.$1}}</div></li><li class=\"story-item\"><div class=\"story-num\">2</div><div>{{36.$1}}</div></li><li class=\"story-item\"><div class=\"story-num\">3</div><div>{{37.$1}}</div></li><li class=\"story-item\"><div class=\"story-num\">4</div><div>{{38.$1}}</div></li></ul></article><article class=\"card\"><h3 style=\"margin-top:0\">Cost efficiency</h3><div class=\"metric-list\"><div class=\"metric-row\"><div class=\"label\">Cost per 1,000 impressions <span class=\"tip\" data-tooltip=\"What it cost for your ad to appear 1,000 times. The Australian real estate average is $30.09 \u2014 lower means your budget went further.\">\u24d8</span></div><div class=\"value\">${{31.cpm}}</div></div><div class=\"metric-row\"><div class=\"label\">Cost per ad click <span class=\"tip\" data-tooltip=\"What it cost each time someone clicked the ad. The Australian real estate average is around $0.24 per click.\">\u24d8</span></div><div class=\"value\">${{31.cpc}}</div></div><div class=\"metric-row\"><div class=\"label\">Cost per listing view <span class=\"tip\" data-tooltip=\"What it cost each time someone clicked through and landed on the property listing page.\">\u24d8</span></div><div class=\"value\">${{33.cplpv}}</div></div><div class=\"metric-row\"><div class=\"label\">Daily listing views</div><div class=\"value\">{{33.lpv_per_day}}/day</div></div><div class=\"metric-row\"><div class=\"label\">Daily clicks</div><div class=\"value\">{{33.clicks_per_day}}/day</div></div></div></article></section><div class=\"section-title\"><div><h2>Traffic funnel</h2><p>How attention turned into listing visits.</p></div></div><section class=\"grid two-col\"><article class=\"card\"><div class=\"funnel-wrap\"><div class=\"funnel\"><div class=\"step\"><div class=\"name\">Reached</div><div class=\"value\">{{31.reach}}</div><div class=\"meta\">Unique people who saw the ad</div></div><div class=\"step\"><div class=\"name\">Video plays</div><div class=\"value\">{{32.video_plays}}</div><div class=\"meta\">People engaged with video content</div></div><div class=\"step\"><div class=\"name\">Ad clicks</div><div class=\"value\">{{31.link_clicks}}</div><div class=\"meta\">Clicked through for more information</div></div><div class=\"step\"><div class=\"name\">Listing views</div><div class=\"value\">{{32.landing_page_views}}</div><div class=\"meta\">Visited the property listing page</div></div></div><div><div class=\"ratio-list\"><div class=\"ratio\"><div class=\"ratio-head\"><span>Listing views from reach</span><span>{{33.listing_visit_rate}}%</span></div><div class=\"bar\"><span style=\"width:{{33.listing_visit_rate}}%\"></span></div></div><div class=\"ratio\"><div class=\"ratio-head\"><span>Video starts from reach</span><span>{{33.video_start_rate}}%</span></div><div class=\"bar\"><span style=\"width:{{33.video_start_rate}}%\"></span></div></div></div></div></div></article><article class=\"card\"><h3 style=\"margin-top:0\">What stands out</h3><div class=\"metric-list\"><div class=\"metric-row\"><div class=\"label\">Impressions delivered <span class=\"tip\" data-tooltip=\"The total number of times your ad appeared in someone's feed across the campaign. This includes people who may have seen it more than once.\">\u24d8</span></div><div class=\"value\">{{31.impressions}}</div></div><div class=\"metric-row\"><div class=\"label\">Average frequency <span class=\"tip\" data-tooltip=\"How many times, on average, each person saw your ad. A well-run campaign typically sits between 1.5\u20132.5x \u2014 enough to be memorable without becoming annoying.\">\u24d8</span></div><div class=\"value\">{{31.frequency}}x</div></div><div class=\"metric-row\"><div class=\"label\">Ad click-through rate <span class=\"tip\" data-tooltip=\"The percentage of people who saw the ad and clicked your link. The Australian real estate average is 4.28% \u2014 this figure is unique CTR (clicks \u00f7 reach), which tends to read a little higher.\">\u24d8</span></div><div class=\"value\">{{31.ctr}}%</div></div><div class=\"metric-row\"><div class=\"label\">All-click CTR <span class=\"tip\" data-tooltip=\"Includes every type of click on the ad \u2014 not just clicks to the listing.\">\u24d8</span></div><div class=\"value\">{{31.all_ctr}}%</div></div><div class=\"metric-row\"><div class=\"label\">Total ad clicks <span class=\"tip\" data-tooltip=\"All clicks including repeat clicks from the same person.\">\u24d8</span></div><div class=\"value\">{{31.total_clicks}}</div></div><div class=\"metric-row\"><div class=\"label\">Cost per person reached</div><div class=\"value\">${{31.cost_per_reach}}</div></div></div></article></section><section class=\"card\"><p class=\"small-note\" style=\"margin:0\"><strong>{{31.link_clicks}} clicks on the ad</strong> turned into <strong>{{32.landing_page_views}} visits to the listing</strong>, with <strong>{{32.video_plays}} video plays</strong> and <strong>{{32.post_engagement}} total engagements</strong> along the way.</p></section><div class=\"footer\">Meta Ads campaign report for <span style=\"text-transform:capitalize\">{{31.addr_street}}, {{31.addr_suburb}}</span>. Reporting period {{2.campaign_start_fmt}} \u2013 {{2.campaign_end_fmt}}.</div></div></body></html>"
+          }
+        ]
+      },
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "variables",
+            "spec": {
+              "name": "value",
+              "spec": [
+                {
+                  "name": "name",
+                  "type": "text",
+                  "label": "Variable name",
+                  "required": true
+                },
+                {
+                  "name": "value",
+                  "type": "any",
+                  "label": "Variable value"
+                }
+              ],
+              "type": "collection",
+              "label": "Variable"
+            },
+            "type": "array",
+            "label": "Variables",
+            "validate": {
+              "unique": {
+                "by": "name"
+              }
+            }
+          },
+          {
+            "name": "scope",
+            "type": "select",
+            "label": "Variable lifetime",
+            "required": true,
+            "validate": {
+              "enum": [
+                "roundtrip",
+                "execution"
+              ]
+            }
+          }
+        ],
+        "restore": {
+          "expect": {
+            "scope": {
+              "label": "One cycle"
+            },
+            "variables": {
+              "items": [
+                null
+              ]
+            }
+          }
+        },
+        "designer": {
+          "x": 2763,
+          "y": 265
+        },
+        "interface": [
+          {
+            "name": "report_html",
+            "type": "any",
+            "label": "report_html"
+          }
+        ]
+      },
+      "parameters": {}
+    },
+    {
+      "id": 40,
+      "mapper": {
+        "qs": [],
+        "url": "/repos/lara-noinkmarketing/client-reports/contents/realestate4305/64-grange-rd-eastern-heights/index.html",
+        "body": "",
+        "method": "GET",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "module": "github:makeRestApiCall",
+      "onerror": [
+        {
+          "id": 41,
+          "mapper": {},
+          "module": "builtin:Resume",
+          "version": 1,
+          "metadata": {
+            "designer": {
+              "x": 3414,
+              "y": 272
+            }
+          },
+          "parameters": {}
+        }
+      ],
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 2998,
+          "y": 363
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 10493602
+      }
+    },
+    {
+      "id": 42,
+      "mapper": {
+        "qs": [],
+        "url": "/repos/lara-noinkmarketing/client-reports/contents/realestate4305/64-grange-rd-eastern-heights/index.html",
+        "body": "{\"message\": \"Report update\", \"content\": \"{{base64(39.report_html)}}\"{{if(40.body.sha; ',\"sha\":\"'; '')}}{{if(40.body.sha; 40.body.sha; '')}}{{if(40.body.sha; '\"'; '')}}}",
+        "method": "PUT",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "module": "github:makeRestApiCall",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 3556,
+          "y": 501
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 10493602
+      }
+    },
+    {
+      "id": 43,
+      "mapper": {
+        "to": [
+          "larah@noinkmarketing.com.au"
+        ],
+        "from": "\"Lara Haslam\" <larah@noinkmarketing.com.au>",
+        "content": "<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\"/>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n  <title>Campaign Report</title>\n</head>\n<body style=\"margin:0;padding:0;background-color:#f8f7f7;font-family:Arial,Helvetica,sans-serif;\">\n\n  <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#f8f7f7;\">\n    <tr>\n      <td align=\"center\" style=\"padding:32px 16px;\">\n\n        <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"max-width:600px;width:100%;\">\n\n          <!-- HEADER -->\n          <tr>\n            <td style=\"background-color:#111111;border-radius:14px 14px 0 0;padding:36px 36px 32px;\">\n              <p style=\"margin:0 0 10px 0;color:#ea3637;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;\">No Ink Marketing \u00b7 Campaign Report</p>\n              <h1 style=\"margin:0 0 12px 0;color:#ffffff;font-size:28px;line-height:1.2;font-weight:800;\">{{31.headline}}</h1>\n              <p style=\"margin:0;color:#c9c9c9;font-size:14px;line-height:1.5;\">\n                <strong style=\"color:#ffffff;text-transform:capitalize;\">{{31.addr_street}}, {{31.addr_suburb}}</strong><br/>\n                Reporting period: {{2.campaign_start_fmt}} \u2013 {{2.campaign_end_fmt}}\n              </p>\n            </td>\n          </tr>\n\n          <!-- TOP 3 STATS -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:28px 36px 0;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                <tr>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Ad Spend</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">${{31.spend}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Listing Views</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{32.landing_page_views}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Click-Through Rate</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{31.ctr}}%</p>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <!-- BOTTOM 3 STATS -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:0 36px 28px;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                <tr>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-top:1px solid #ece7e7;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Buyers Reached</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{31.reach}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-top:1px solid #ece7e7;border-right:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Video Plays</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{32.video_plays}}</p>\n                  </td>\n                  <td width=\"33%\" style=\"text-align:center;padding:16px 8px;border-top:1px solid #ece7e7;\">\n                    <p style=\"margin:0;color:#9a9a9a;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;\">Post Engagement</p>\n                    <p style=\"margin:8px 0 4px;color:#111111;font-size:26px;font-weight:800;line-height:1;\">{{32.post_engagement}}</p>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <!-- DIVIDER -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:0 36px;\">\n              <hr style=\"border:none;border-top:1px solid #ece7e7;margin:0;\"/>\n            </td>\n          </tr>\n\n          <!-- CTA -->\n          <tr>\n            <td style=\"background-color:#ffffff;padding:32px 36px;text-align:center;\">\n              <p style=\"margin:0 0 20px;color:#3d3d3d;font-size:15px;line-height:1.6;\">\n                Here's the campaign report for <span style=\"text-transform:capitalize\">{{31.addr_street}}, {{31.addr_suburb}}</span> \u2014 including a full traffic breakdown, video performance, cost efficiency metrics and more.\n              </p>\n              <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"margin:0 auto;\">\n                <tr>\n                  <td style=\"background-color:#ea3637;border-radius:999px;padding:14px 36px;\">\n                    <a href=\"https://reports.noinkmarketing.com.au/realestate4305/64-grange-rd-eastern-heights\" style=\"color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;display:inline-block;letter-spacing:0.02em;\">View Full Report &rarr;</a>\n                  </td>\n                </tr>\n              </table>\n              <p style=\"margin:16px 0 0;color:#a8a8a8;font-size:12px;\">\n                Or copy this link: https://reports.noinkmarketing.com.au/realestate4305/64-grange-rd-eastern-heights\n              </p>\n            </td>\n          </tr>\n\n          <!-- FOOTER -->\n          <tr>\n            <td style=\"background-color:#111111;border-radius:0 0 14px 14px;padding:20px 36px;text-align:center;\">\n              <p style=\"margin:0;color:#c9c9c9;font-size:12px;line-height:1.6;\">\n                This report was prepared by No Ink Marketing.<br/>\n                Campaign: <span style=\"text-transform:capitalize;\">{{31.addr_street}}, {{31.addr_suburb}}</span>.\n              </p>\n            </td>\n          </tr>\n\n        </table>\n      </td>\n    </tr>\n  </table>\n\n</body>\n</html>",
+        "subject": "\ud83d\udcca 64 Grange Rd, Eastern Heights \u2014 Your Campaign Report is Ready",
+        "bodyType": "rawHtml"
+      },
+      "module": "google-email:sendAnEmail",
+      "version": 4,
+      "metadata": {
+        "designer": {
+          "x": 3938,
+          "y": 344
+        }
+      },
+      "parameters": {
+        "__IMTCONN__": 7963615
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "designer": {
+      "orphans": [],
+      "samples": {
+        "1": {
+          "id": "120251270777610503",
+          "name": "All Properties--traffic",
+          "status": "ACTIVE",
+          "objective": "OUTCOME_TRAFFIC",
+          "stop_time": "2026-09-07T01:01:00.000Z",
+          "account_id": "1633252084924219",
+          "start_time": "2026-08-28T00:58:44.000Z",
+          "topline_id": "0",
+          "buying_type": "AUCTION",
+          "__IMTINDEX__": 1,
+          "created_time": "2026-08-28T00:58:43.000Z",
+          "updated_time": "2026-08-28T01:27:45.000Z",
+          "__IMTLENGTH__": 1,
+          "budget_remaining": "0",
+          "effective_status": "ACTIVE",
+          "can_use_spend_cap": true,
+          "configured_status": "ACTIVE",
+          "source_campaign_id": "0",
+          "special_ad_category": "HOUSING",
+          "budget_rebalance_flag": false,
+          "special_ad_categories": [
+            "HOUSING"
+          ],
+          "is_skadnetwork_attribution": false,
+          "can_create_brand_lift_study": false,
+          "special_ad_category_country": [
+            "AU"
+          ]
+        },
+        "2": {
+          "days_live": 11,
+          "campaign_end": "2026-09-08",
+          "campaign_start": "2026-08-28T00:58:44.000Z",
+          "campaign_end_fmt": "8 Sep 2026",
+          "campaign_start_fmt": "28 Aug 2026"
+        },
+        "10": {
+          "cpc": "0.058601",
+          "cpm": "8.899557",
+          "ctr": "15.186826",
+          "reach": "16505",
+          "spend": "299.39",
+          "clicks": "5109",
+          "actions": [
+            {
+              "value": "14206",
+              "action_type": "video_view"
+            }
+          ],
+          "adset_id": "120251421454310503",
+          "date_stop": "2026-09-07T14:00:00.000Z",
+          "frequency": "2.038231",
+          "date_start": "2026-08-27T14:00:00.000Z",
+          "unique_ctr": "20.539231",
+          "impressions": "33641",
+          "__IMTINDEX__": 1,
+          "__IMTLENGTH__": 1,
+          "unique_clicks": "3390",
+          "unique_actions": [
+            {
+              "value": "3151",
+              "action_type": "link_click"
+            }
+          ],
+          "video_play_actions": [
+            {
+              "value": "31675",
+              "action_type": "video_view"
+            }
+          ],
+          "cost_per_action_type": [
+            {
+              "value": "0.073058",
+              "action_type": "landing_page_view"
+            }
+          ],
+          "video_p25_watched_actions": [
+            {
+              "value": "8012",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p50_watched_actions": [
+            {
+              "value": "3683",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p75_watched_actions": [
+            {
+              "value": "1914",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p95_watched_actions": [
+            {
+              "value": "1341",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p100_watched_actions": [
+            {
+              "value": "1229",
+              "action_type": "video_view"
+            }
+          ],
+          "video_30_sec_watched_actions": [
+            {
+              "value": "1272",
+              "action_type": "video_view"
+            }
+          ],
+          "video_avg_time_watched_actions": [
+            {
+              "value": "6",
+              "action_type": "video_view"
+            }
+          ],
+          "video_thruplay_watched_actions": [
+            {
+              "value": "2847",
+              "action_type": "video_view"
+            }
+          ]
+        },
+        "11": {
+          "cpc": 0.06,
+          "cpm": 8.9,
+          "ctr": 15.19,
+          "reach": "16505",
+          "spend": 299.39,
+          "all_ctr": 15.19,
+          "headline": "Over 16505 buyers reached in 11 days!",
+          "frequency": 2.04,
+          "addr_street": "1/38 Cooinda Street",
+          "addr_suburb": "Eastern Heights",
+          "impressions": "33641",
+          "link_clicks": "3390",
+          "total_clicks": "5109",
+          "cost_per_reach": 0.02
+        },
+        "12": {
+          "video_plays": "31675",
+          "post_engagement": "18827",
+          "landing_page_views": 4098
+        },
+        "13": {
+          "cplpv": 0.07,
+          "lpv_per_day": 373,
+          "clicks_per_day": 308,
+          "video_start_rate": 192,
+          "listing_visit_rate": 25,
+          "lpv_from_clicks_rate": 121
+        },
+        "14": {
+          "id": "chatcmpl-ELkyxgu6d9lflcKwgP3Fw5f3v9DFP",
+          "model": "gpt-4o-2024-08-06",
+          "usage": {
+            "total_tokens": 925,
+            "prompt_tokens": 796,
+            "completion_tokens": 129,
+            "prompt_tokens_details": {
+              "audio_tokens": 0,
+              "cached_tokens": 0
+            },
+            "completion_tokens_details": {
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "object": "chat.completion",
+          "result": "VISIBILITY: The ad reached 16,505 people, and about 17,136 of those saw it more than once. That's an...",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "VISIBILITY: The ad reached 16,505 people, and about 17,136 of those saw it more than once. That's an...",
+                "refusal": null,
+                "annotations": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "created": "2026-09-08T07:56:35.000Z",
+          "service_tier": "default",
+          "system_fingerprint": "fp_e3057867b6"
+        },
+        "15": {
+          "$1": " The ad reached 16,505 people, and about 17,136 of those saw it more than once. That's an above-aver..."
+        },
+        "16": {
+          "$1": " With an all-click-through rate of 15.19 percent and a cost per click of just $0.06 AUD, this campai..."
+        },
+        "17": {
+          "$1": " The property listing attracted 4,098 views, with each view costing just $0.07 AUD.\n\n"
+        },
+        "18": {
+          "$1": " The video plays hit 31,675, showing a high level of interest and engagement from the audience."
+        },
+        "19": {
+          "report_html": "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"/><meta name=\"viewport\" content=\"width=dev..."
+        },
+        "20": {
+          "body": {
+            "sha": "47469b85a3d6d35ba761b8d7745e71cdb068ba08",
+            "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/1-38-cooinda...",
+            "name": "index.html",
+            "path": "realestate4305/1-38-cooinda-street-eastern-heights/index.html",
+            "size": 16907,
+            "type": "file",
+            "_links": {
+              "git": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/47469b85a3d6d35ba761b8d774...",
+              "html": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/1-38-cooinda-street-e...",
+              "self": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/1-38-cooinda..."
+            },
+            "content": "PCFET0NUWVBFIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxoZWFkPjxtZXRhIGNo\nYXJzZXQ9InV0Zi04Ii8+PG1ldGEgbmFtZT0idml...",
+            "git_url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/47469b85a3d6d35ba761b8d774...",
+            "encoding": "base64",
+            "html_url": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/1-38-cooinda-street-e...",
+            "download_url": "https://raw.githubusercontent.com/lara-noinkmarketing/client-reports/main/realestate4305/1-38-cooind..."
+          },
+          "headers": {
+            "date": "Tue, 08 Sep 2026 07:56:37 GMT",
+            "etag": "\"47469b85a3d6d35ba761b8d7745e71cdb068ba08\"",
+            "vary": "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding, Accept, X-Requested-With",
+            "server": "github.com",
+            "connection": "close",
+            "content-type": "application/json; charset=utf-8",
+            "cache-control": "private, max-age=60, s-maxage=60",
+            "last-modified": "Tue, 08 Sep 2026 07:41:16 GMT",
+            "content-length": "24490",
+            "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+            "x-frame-options": "deny",
+            "x-ratelimit-used": "14",
+            "x-xss-protection": "0",
+            "x-ratelimit-limit": "5000",
+            "x-ratelimit-reset": "1788855122",
+            "x-github-media-type": "github.v3; format=json",
+            "x-github-request-id": "F8F9:DDE7A:5C80B31:1291F33E:6A9FBFB5",
+            "x-github-edge-region": "iad",
+            "x-ratelimit-resource": "core",
+            "x-ratelimit-remaining": "4986",
+            "x-content-type-options": "nosniff",
+            "content-security-policy": "default-src 'none'",
+            "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+            "access-control-allow-origin": "*",
+            "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLim...",
+            "x-accepted-github-permissions": "contents=read",
+            "x-github-api-version-selected": "2022-11-28",
+            "github-authentication-token-expiration": "2026-11-16 05:42:28 UTC"
+          },
+          "statusCode": 200
+        },
+        "22": {
+          "body": {
+            "commit": {
+              "sha": "f543d2cadd449ac1a0238ab654e052fe3b1c32dd",
+              "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/commits/f543d2cadd449ac1a0238ab6...",
+              "tree": {
+                "sha": "44d1c92ef84281d3b4022deb4a04aed85b4eb5ca",
+                "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/trees/44d1c92ef84281d3b4022deb4a..."
+              },
+              "author": {
+                "date": "2026-09-08T07:56:38Z",
+                "name": "Lara",
+                "email": "larah@noinkmarketing.com.au"
+              },
+              "message": "Report update",
+              "node_id": "C_kwDOT4a4i9oAKGY1NDNkMmNhZGQ0NDlhYzFhMDIzOGFiNjU0ZTA1MmZlM2IxYzMyZGQ",
+              "parents": [
+                {
+                  "sha": "9bc442113f552e77a04ce884b66a5be5273e41ad",
+                  "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/commits/9bc442113f552e77a04ce884...",
+                  "html_url": "https://github.com/lara-noinkmarketing/client-reports/commit/9bc442113f552e77a04ce884b66a5be5273e41a..."
+                }
+              ],
+              "html_url": "https://github.com/lara-noinkmarketing/client-reports/commit/f543d2cadd449ac1a0238ab654e052fe3b1c32d...",
+              "committer": {
+                "date": "2026-09-08T07:56:38Z",
+                "name": "Lara",
+                "email": "larah@noinkmarketing.com.au"
+              },
+              "verification": {
+                "reason": "unsigned",
+                "payload": null,
+                "verified": false,
+                "signature": null,
+                "verified_at": null
+              }
+            },
+            "content": {
+              "sha": "75c56aa2fc6f091b22787c3ab9266cc05cd17acf",
+              "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/1-38-cooinda...",
+              "name": "index.html",
+              "path": "realestate4305/1-38-cooinda-street-eastern-heights/index.html",
+              "size": 16979,
+              "type": "file",
+              "_links": {
+                "git": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/75c56aa2fc6f091b22787c3ab9...",
+                "html": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/1-38-cooinda-street-e...",
+                "self": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/1-38-cooinda..."
+              },
+              "git_url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/75c56aa2fc6f091b22787c3ab9...",
+              "html_url": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/1-38-cooinda-street-e...",
+              "download_url": "https://raw.githubusercontent.com/lara-noinkmarketing/client-reports/main/realestate4305/1-38-cooind..."
+            }
+          },
+          "headers": {
+            "date": "Tue, 08 Sep 2026 07:56:38 GMT",
+            "etag": "W/\"de67ad6141b5e1b4d01975f2b5054d484cc49a5eb02fa9b898d2e664ebc31607\"",
+            "vary": "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With",
+            "server": "github.com",
+            "connection": "close",
+            "content-type": "application/json; charset=utf-8",
+            "cache-control": "private, max-age=60, s-maxage=60",
+            "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+            "x-frame-options": "deny",
+            "x-ratelimit-used": "3",
+            "x-xss-protection": "0",
+            "transfer-encoding": "chunked",
+            "x-ratelimit-limit": "5000",
+            "x-ratelimit-reset": "1788856850",
+            "x-github-media-type": "github.v3; format=json",
+            "x-github-request-id": "BDF1:24EA44:586D3FF:11C8D74A:6A9FBFB5",
+            "x-github-edge-region": "iad",
+            "x-ratelimit-resource": "core",
+            "x-ratelimit-remaining": "4997",
+            "x-content-type-options": "nosniff",
+            "content-security-policy": "default-src 'none'",
+            "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+            "access-control-allow-origin": "*",
+            "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLim...",
+            "x-accepted-github-permissions": "contents=write; contents=write,workflows=write",
+            "x-github-api-version-selected": "2022-11-28",
+            "github-authentication-token-expiration": "2026-11-16 05:42:28 UTC"
+          },
+          "statusCode": 200
+        },
+        "23": {
+          "id": "1a08004e55c3745a",
+          "labelIds": [
+            "UNREAD"
+          ],
+          "threadId": "1a08004e55c3745a",
+          "sysFolders": [
+            {
+              "id": "INBOX",
+              "name": "Inbox"
+            }
+          ]
+        },
+        "30": {
+          "cpc": "0.069278",
+          "cpm": "9.831762",
+          "ctr": "14.191831",
+          "reach": "18187",
+          "spend": "299.21",
+          "clicks": "4319",
+          "actions": [
+            {
+              "value": "11868",
+              "action_type": "video_view"
+            }
+          ],
+          "adset_id": "120251270777620503",
+          "date_stop": "2026-09-07T14:00:00.000Z",
+          "frequency": "1.673338",
+          "date_start": "2026-08-27T14:00:00.000Z",
+          "unique_ctr": "18.601199",
+          "impressions": "30433",
+          "__IMTINDEX__": 1,
+          "__IMTLENGTH__": 1,
+          "unique_clicks": "3383",
+          "unique_actions": [
+            {
+              "value": "3241",
+              "action_type": "link_click"
+            }
+          ],
+          "video_play_actions": [
+            {
+              "value": "29521",
+              "action_type": "video_view"
+            }
+          ],
+          "cost_per_action_type": [
+            {
+              "value": "0.078781",
+              "action_type": "landing_page_view"
+            }
+          ],
+          "video_p25_watched_actions": [
+            {
+              "value": "7528",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p50_watched_actions": [
+            {
+              "value": "3273",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p75_watched_actions": [
+            {
+              "value": "1657",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p95_watched_actions": [
+            {
+              "value": "1056",
+              "action_type": "video_view"
+            }
+          ],
+          "video_p100_watched_actions": [
+            {
+              "value": "921",
+              "action_type": "video_view"
+            }
+          ],
+          "video_30_sec_watched_actions": [
+            {
+              "value": "1000",
+              "action_type": "video_view"
+            }
+          ],
+          "video_avg_time_watched_actions": [
+            {
+              "value": "5",
+              "action_type": "video_view"
+            }
+          ],
+          "video_thruplay_watched_actions": [
+            {
+              "value": "2296",
+              "action_type": "video_view"
+            }
+          ]
+        },
+        "31": {
+          "cpc": 0.07,
+          "cpm": 9.83,
+          "ctr": 14.19,
+          "reach": "18187",
+          "spend": 299.21,
+          "all_ctr": 14.19,
+          "headline": "Over 18187 buyers reached in 11 days!",
+          "frequency": 1.67,
+          "addr_street": "64 Grange Rd",
+          "addr_suburb": "Eastern Heights",
+          "impressions": "30433",
+          "link_clicks": "3383",
+          "total_clicks": "4319",
+          "cost_per_reach": 0.02
+        },
+        "32": {
+          "video_plays": "29521",
+          "post_engagement": "15983",
+          "landing_page_views": 3798
+        },
+        "33": {
+          "cplpv": 0.08,
+          "lpv_per_day": 345,
+          "clicks_per_day": 308,
+          "video_start_rate": 162,
+          "listing_visit_rate": 21,
+          "lpv_from_clicks_rate": 112
+        },
+        "34": {
+          "id": "chatcmpl-ELkzNQFUTHrbekAvLWe37ePnuYdps",
+          "model": "gpt-4o-2024-08-06",
+          "usage": {
+            "total_tokens": 967,
+            "prompt_tokens": 796,
+            "completion_tokens": 171,
+            "prompt_tokens_details": {
+              "audio_tokens": 0,
+              "cached_tokens": 0
+            },
+            "completion_tokens_details": {
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "object": "chat.completion",
+          "result": "VISIBILITY: The ad reached 18,187 people, and around 12,246 of those saw it more than once. The freq...",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "VISIBILITY: The ad reached 18,187 people, and around 12,246 of those saw it more than once. The freq...",
+                "refusal": null,
+                "annotations": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "created": "2026-09-08T07:57:01.000Z",
+          "service_tier": "default",
+          "system_fingerprint": "fp_e3057867b6"
+        },
+        "35": {
+          "$1": " The ad reached 18,187 people, and around 12,246 of those saw it more than once. The frequency of 1...."
+        },
+        "36": {
+          "$1": " The campaign had a strong click-through rate of 14.19 percent, which is well above the typical rate..."
+        },
+        "37": {
+          "$1": " The property listing attracted 3,798 views, with each visit costing just $0.08 AUD. That's a cost-e..."
+        },
+        "38": {
+          "$1": " The video received 29,521 plays, showing a high level of interest and engagement from the audience...."
+        },
+        "39": {
+          "report_html": "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"/><meta name=\"viewport\" content=\"width=dev..."
+        },
+        "40": {
+          "body": {
+            "sha": "47469b85a3d6d35ba761b8d7745e71cdb068ba08",
+            "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/64-grange-rd...",
+            "name": "index.html",
+            "path": "realestate4305/64-grange-rd-eastern-heights/index.html",
+            "size": 16907,
+            "type": "file",
+            "_links": {
+              "git": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/47469b85a3d6d35ba761b8d774...",
+              "html": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/64-grange-rd-eastern-...",
+              "self": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/64-grange-rd..."
+            },
+            "content": "PCFET0NUWVBFIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxoZWFkPjxtZXRhIGNo\nYXJzZXQ9InV0Zi04Ii8+PG1ldGEgbmFtZT0idml...",
+            "git_url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/47469b85a3d6d35ba761b8d774...",
+            "encoding": "base64",
+            "html_url": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/64-grange-rd-eastern-...",
+            "download_url": "https://raw.githubusercontent.com/lara-noinkmarketing/client-reports/main/realestate4305/64-grange-r..."
+          },
+          "headers": {
+            "date": "Tue, 08 Sep 2026 07:57:03 GMT",
+            "etag": "\"47469b85a3d6d35ba761b8d7745e71cdb068ba08\"",
+            "vary": "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding, Accept, X-Requested-With",
+            "server": "github.com",
+            "connection": "close",
+            "content-type": "application/json; charset=utf-8",
+            "cache-control": "private, max-age=60, s-maxage=60",
+            "last-modified": "Tue, 08 Sep 2026 07:56:38 GMT",
+            "content-length": "24448",
+            "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+            "x-frame-options": "deny",
+            "x-ratelimit-used": "15",
+            "x-xss-protection": "0",
+            "x-ratelimit-limit": "5000",
+            "x-ratelimit-reset": "1788855122",
+            "x-github-media-type": "github.v3; format=json",
+            "x-github-request-id": "6218:DA9F6:5DEB5AD:12D7D396:6A9FBFCF",
+            "x-github-edge-region": "iad",
+            "x-ratelimit-resource": "core",
+            "x-ratelimit-remaining": "4985",
+            "x-content-type-options": "nosniff",
+            "content-security-policy": "default-src 'none'",
+            "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+            "access-control-allow-origin": "*",
+            "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLim...",
+            "x-accepted-github-permissions": "contents=read",
+            "x-github-api-version-selected": "2022-11-28",
+            "github-authentication-token-expiration": "2026-11-16 05:42:28 UTC"
+          },
+          "statusCode": 200
+        },
+        "42": {
+          "body": {
+            "commit": {
+              "sha": "b8b66d0a4f5c1ad0e2af7547e83984bb85becb54",
+              "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/commits/b8b66d0a4f5c1ad0e2af7547...",
+              "tree": {
+                "sha": "bf0242863897d9aea63cec0f60f058404c2f73ea",
+                "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/trees/bf0242863897d9aea63cec0f60..."
+              },
+              "author": {
+                "date": "2026-09-08T07:57:03Z",
+                "name": "Lara",
+                "email": "larah@noinkmarketing.com.au"
+              },
+              "message": "Report update",
+              "node_id": "C_kwDOT4a4i9oAKGI4YjY2ZDBhNGY1YzFhZDBlMmFmNzU0N2U4Mzk4NGJiODViZWNiNTQ",
+              "parents": [
+                {
+                  "sha": "f543d2cadd449ac1a0238ab654e052fe3b1c32dd",
+                  "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/commits/f543d2cadd449ac1a0238ab6...",
+                  "html_url": "https://github.com/lara-noinkmarketing/client-reports/commit/f543d2cadd449ac1a0238ab654e052fe3b1c32d..."
+                }
+              ],
+              "html_url": "https://github.com/lara-noinkmarketing/client-reports/commit/b8b66d0a4f5c1ad0e2af7547e83984bb85becb5...",
+              "committer": {
+                "date": "2026-09-08T07:57:03Z",
+                "name": "Lara",
+                "email": "larah@noinkmarketing.com.au"
+              },
+              "verification": {
+                "reason": "unsigned",
+                "payload": null,
+                "verified": false,
+                "signature": null,
+                "verified_at": null
+              }
+            },
+            "content": {
+              "sha": "75c56aa2fc6f091b22787c3ab9266cc05cd17acf",
+              "url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/64-grange-rd...",
+              "name": "index.html",
+              "path": "realestate4305/64-grange-rd-eastern-heights/index.html",
+              "size": 16979,
+              "type": "file",
+              "_links": {
+                "git": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/75c56aa2fc6f091b22787c3ab9...",
+                "html": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/64-grange-rd-eastern-...",
+                "self": "https://api.github.com/repos/lara-noinkmarketing/client-reports/contents/realestate4305/64-grange-rd..."
+              },
+              "git_url": "https://api.github.com/repos/lara-noinkmarketing/client-reports/git/blobs/75c56aa2fc6f091b22787c3ab9...",
+              "html_url": "https://github.com/lara-noinkmarketing/client-reports/blob/main/realestate4305/64-grange-rd-eastern-...",
+              "download_url": "https://raw.githubusercontent.com/lara-noinkmarketing/client-reports/main/realestate4305/64-grange-r..."
+            }
+          },
+          "headers": {
+            "date": "Tue, 08 Sep 2026 07:57:04 GMT",
+            "etag": "W/\"51decb78810cfe084f3139a804def6bf7e95d4a65ba353f4c071281043d1f9fc\"",
+            "vary": "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With",
+            "server": "github.com",
+            "connection": "close",
+            "content-type": "application/json; charset=utf-8",
+            "cache-control": "private, max-age=60, s-maxage=60",
+            "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+            "x-frame-options": "deny",
+            "x-ratelimit-used": "4",
+            "x-xss-protection": "0",
+            "transfer-encoding": "chunked",
+            "x-ratelimit-limit": "5000",
+            "x-ratelimit-reset": "1788856850",
+            "x-github-media-type": "github.v3; format=json",
+            "x-github-request-id": "8F6F:333172:59BE8BB:1203C46F:6A9FBFCF",
+            "x-github-edge-region": "iad",
+            "x-ratelimit-resource": "core",
+            "x-ratelimit-remaining": "4996",
+            "x-content-type-options": "nosniff",
+            "content-security-policy": "default-src 'none'",
+            "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+            "access-control-allow-origin": "*",
+            "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLim...",
+            "x-accepted-github-permissions": "contents=write; contents=write,workflows=write",
+            "x-github-api-version-selected": "2022-11-28",
+            "github-authentication-token-expiration": "2026-11-16 05:42:28 UTC"
+          },
+          "statusCode": 200
+        },
+        "43": {
+          "id": "1a080054960410fa",
+          "labelIds": [
+            "UNREAD"
+          ],
+          "threadId": "1a080054960410fa",
+          "sysFolders": [
+            {
+              "id": "INBOX",
+              "name": "Inbox"
+            }
+          ]
+        }
+      }
+    },
+    "scenario": {
+      "dlq": false,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  }
+}
